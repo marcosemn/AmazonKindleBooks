@@ -1,4 +1,29 @@
-# AmazonKindleBooks
-Since I bought a Kindle in 2019, I got in love with it. So I decided to do some machine learning to find out if we can predict that a book will or won't be a 5-star based on the reader's avaliation variables, like the number of customer reviews, and some features from the device, like text to speech,	x ray	and lending, but also using the descriptions (thanks for LSA and TFIDF) and other variables from the book, like size in memory, number of pages and price. For this, I tested Logistic, Gaussian, Decision Tree and Random Forest models to do so and I had some interesting results, including a 95% ROC AUC.
-Also, I used basically Pandas and some functions from SKLearn, but Numpy, Seaborn and MatplotLib helped me a lot too. To reproduce it you only have to download the data at https://bigml.com/user/ashikiar/gallery/dataset/53f3ba12547dfc64bd000a1f and change the path in the beginning of the code. I recommend also to check if you have your pandas and your python up to date, because I had some problems with it, specially when ploting my trees. 
-At first, I tried to model only the numerical data in the way they are in the data base, identifying the outliers, the distribution of each column and understanding the correlation they have before modeling the ML. Also, I included categorical variables for thecategorical features. In a second step, I added the description to the X matrix the way the LSA and the TFIDF recommend, based the number of topics that Chris Albon (https://chrisalbon.com/machine_learning/feature_engineering/select_best_number_of_components_in_tsvd/) calculates. Finally, I calcutated the log for the numerical features and executed all over again. Both changes helped me increase my scores and my ROC AUC.
+# Kindle Book Rating Classifier
+
+Can we predict whether a Kindle book will get a 5-star rating? This notebook combines a book's numerical data (price, number of pages, file size, number of customer reviews), its device features (text-to-speech, X-Ray, lending) and the text of its description.
+
+## Approach
+
+1. Explore distributions, missing values and correlations, and build the target: 5 stars vs. fewer than 5.
+2. Train a baseline with the numerical and device features.
+3. Add the description text with TF-IDF and LSA (truncated SVD), choosing the number of topics by explained variance.
+4. Log-transform the skewed numerical features and retrain.
+
+Models compared: logistic regression, Gaussian Naive Bayes, decision tree and random forest.
+
+## Results (test set, final run)
+
+| Model | ROC AUC |
+|---|---|
+| Logistic regression | 0.93 |
+| Random forest | 0.92 |
+| Gaussian Naive Bayes | 0.88 |
+| Decision tree | 0.65 |
+
+## Data
+
+Dataset available at [BigML](https://bigml.com/user/ashikiar/gallery/dataset/53f3ba12547dfc64bd000a1f). Download it and update the file path at the top of the notebook.
+
+## Stack
+
+Python, pandas, NumPy, SciPy, scikit-learn, Matplotlib, Seaborn.
